@@ -1,11 +1,15 @@
-# Todo
+# Trailers
 
-## Soon
+http://iangilman.com/trailers/
+
+## To Do
+
+### Soon
 
 * Additional RSS feeds (DVD's etc.)
 * Keep track of movies we've seen by normalized title as well (so we don't load things we don't need)
 
-## Normal
+### Normal
 
 * 'Still there?' check every 30 minutes
 * Analytics
@@ -25,7 +29,7 @@
 * Use TMDb trailers?
 * Modernizr checks?
 
-## Mobile
+### Mobile
 
 * Add some informative intro
 * Show the movie name while the next video buffers?
