@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trailers</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/normalize.css">
+    <link rel="stylesheet/less" type="text/css" href="../style/list.less">
+    <script src="../lib/jquery-1.11.1.min.js"></script>
+    <script src="../lib/less-1.7.5.min.js"></script>
+    <script src="../lib/underscore-1.5.0.min.js"></script>
+    <script src="../lib/spin.min.js"></script>
+    <script src="../lib/path.js"></script>
+    <script src="../lib/modernizr.custom.js"></script>
+    <script src="../lib/zot.js"></script>
+    <script src="../lib/zot.subscribable.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/list.js"></script>
+    <script id="movie-template" type="text/template">
+        <div class="movie">
+            <img src="https://image.tmdb.org/t/p/w185<%- poster_path %>">
+            <div class="hover">
+                <a href="http://dvd.netflix.com/Search?v1=<%- title %>" target="_blank">Netflix</a>
+                <a href="http://www.imdb.com/find?s=tt&q=<%- title %>" target="_blank">IMDb</a>
+                <a href="https://www.themoviedb.org/movie/<%- id %>" target="_blank">TMDb</a>
+                <a href="http://itunes.com/movie/<%- title %>" target="_blank">iTunes</a>
+                <a href="http://www.amazon.com/s/?url=search-alias%3Daps&tag=iangilman-20&field-keywords=<%- title %>" target="_blank">Amazon</a>
+                <p><%- release_date %></p>
+                <div class="button play-button">
+                    <span class="fa fa-play fa-border fa-3x"></span>
+                </div>
+                <div class="button-bar">
+                    <div class="button seen-button" title="Mark as Seen">
+                        <span class="fa fa-check fa-border fa-2x"></span>
+                    </div>
+                    <div class="button yes-button" title="Mark as Interested">
+                        <span class="fa fa-thumbs-o-up fa-border fa-2x"></span>
+                    </div>
+                    <div class="button no-button" title="Mark as Hated">
+                        <span class="fa fa-thumbs-o-down fa-border fa-2x"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+  </head>
+  <body>
+    <div class="main-content">
+        <div class="watched">
+            <p><a href="../play/">Watch More Trailers</a></p>
+            <h1>Interested</h1>
+            <div class="liked"></div>
+            <h1>Undecided</h1>
+            <div class="other"></div>
+            <h1>Hated</h1>
+            <div class="hated"></div>
+            <h1>Seen</h1>
+            <div class="seen"></div>
+        </div>
+        <div class="none-watched">
+            Nothing to see here. You'll have to <a href="../play">watch some trailers</a> first!
+        </div>
+    </div>
+  </body>
+</html>
