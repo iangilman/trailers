@@ -1,0 +1,10 @@
+{
+	"name": "trailers",
+	"version": "0.0.1",
+	"dependencies": {
+		"async": "^3.2.0"
+	},
+	"scripts": {
+		"deploy": "node util/deploy.js"
+	}
+}
