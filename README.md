@@ -2,6 +2,10 @@
 
 http://iangilman.com/trailers/
 
+## Development
+
+Run it with MAMP or some such, and go to http://localhost:8888/play/ to see it in action.
+
 ## To Do
 
 ### Soon
