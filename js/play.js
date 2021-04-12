@@ -418,6 +418,8 @@
         }
       };
 
+      console.log('loading feed', url);
+      
       $.ajax({
         url: '../proxy.php?url=' + encodeURIComponent(url),
         success: function(data) {
@@ -434,6 +436,8 @@
             if (/Search for other movies/i.test(title)) {
               return;
             }
+            
+            console.log('loading movie info', url, title);
 
             expected++;
             App.getTmdb({
@@ -449,7 +453,10 @@
               }
 
               completion();
-            }).fail(completion);
+            }).fail(function() {
+              console.warn('Unable to load', title);
+              completion();
+            });
           });
         },
         error: function(xhr, textStatus, errorThrown) {
