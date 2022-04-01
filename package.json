@@ -1,8 +1,11 @@
 {
 	"name": "trailers",
 	"version": "0.0.1",
+	"type" : "module",
 	"dependencies": {
-		"async": "^3.2.0"
+		"async": "^3.2.3",
+		"csv-parse": "^5.0.4",
+		"node-fetch": "^3.2.3"
 	},
 	"scripts": {
 		"deploy": "node util/deploy.js"
