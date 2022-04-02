@@ -6,7 +6,7 @@ import fetch from "node-fetch";
 const apiKey = "AIzaSyAk2oDaN7Ffxw4SXjPKETlk-0YjbLSTYVU";
 const fileText = fs.readFileSync("util/watchlist.csv", { encoding: "utf8" });
 const ids = [];
-const count = 10;
+const count = 50;
 
 parse(fileText, { columns: true }, function (err, records) {
   as.forEachOf(
@@ -31,6 +31,8 @@ parse(fileText, { columns: true }, function (err, records) {
       }
     },
     function () {
+      // _.chunk(ids, 50)
+
       console.log(
         `http://www.youtube.com/watch_videos?video_ids=${ids.join(",")}`
       );
