@@ -2,17 +2,20 @@ import { parse } from "csv-parse";
 import fs from "fs";
 import as from "async";
 import fetch from "node-fetch";
+import _ from "lodash";
 
 const apiKey = "AIzaSyAk2oDaN7Ffxw4SXjPKETlk-0YjbLSTYVU";
 const fileText = fs.readFileSync("util/watchlist.csv", { encoding: "utf8" });
 const ids = [];
-const count = 50;
+const start = 0;
+const end = Infinity;
+const failures = [];
 
 parse(fileText, { columns: true }, function (err, records) {
-  as.forEachOf(
+  as.eachOfSeries(
     records,
     function (record, index, next) {
-      if (index < count) {
+      if (index >= start && index < end) {
         const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
           record.Name
         )}+trailer&type=video&key=${apiKey}`;
@@ -21,8 +24,15 @@ parse(fileText, { columns: true }, function (err, records) {
           headers: { Referer: "https://iangilman.com" },
         }).then((response) => {
           response.json().then((data) => {
-            const id = data.items[0].id.videoId;
-            ids.push(id);
+            if (data && data.items && data.items.length) {
+              const id = data.items[0].id.videoId;
+              console.log(record.Name, id);
+              ids.push(id);
+            } else {
+              console.log(record.Name, "failed", data);
+              failures.push(record.Name);
+            }
+
             next();
           });
         });
@@ -31,11 +41,17 @@ parse(fileText, { columns: true }, function (err, records) {
       }
     },
     function () {
-      // _.chunk(ids, 50)
+      const sets = _.chunk(ids, 50);
 
-      console.log(
-        `http://www.youtube.com/watch_videos?video_ids=${ids.join(",")}`
-      );
+      sets.forEach((idList) => {
+        console.log(
+          `http://www.youtube.com/watch_videos?video_ids=${idList.join(",")}`
+        );
+      });
+
+      if (failures.length) {
+        console.log("failed: ", failures.join(", "));
+      }
 
       console.log("done");
     }
