@@ -4,7 +4,7 @@ import as from "async";
 import fetch from "node-fetch";
 import _ from "lodash";
 
-const apiKey = "AIzaSyAk2oDaN7Ffxw4SXjPKETlk-0YjbLSTYVU";
+const apiKey = "AIzaSyBN6SPRhF1ZOOaQmlAu2cLuk_xYFctLp1A";
 const fileText = fs.readFileSync("util/watchlist.csv", { encoding: "utf8" });
 const ids = [];
 const start = 0;
@@ -21,7 +21,7 @@ parse(fileText, { columns: true }, function (err, records) {
         )}+trailer&type=video&key=${apiKey}`;
 
         fetch(url, {
-          headers: { Referer: "https://iangilman.com" },
+          headers: { Referer: "https://www.iangilman.com/" },
         }).then((response) => {
           response.json().then((data) => {
             if (data && data.items && data.items.length) {
