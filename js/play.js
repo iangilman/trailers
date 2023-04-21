@@ -41,10 +41,11 @@
       }
 
       this._incomingFeeds = [
-        'https://www.filmjabber.com/rss/rss-dvd-releases.php',
-        'https://www.filmjabber.com/rss/rss-current.php',
-        'https://www.filmjabber.com/rss/rss-upcoming.php'
-
+        // These work, but we are disabling them for now in favor of the TMDB API trending:
+        // 'https://www.filmjabber.com/rss/rss-dvd-releases.php',
+        // 'https://www.filmjabber.com/rss/rss-current.php',
+        // 'https://www.filmjabber.com/rss/rss-upcoming.php'
+        //
         // None of these work anymore:
         // 'http://feeds.filmjabber.com/Movies-Coming-Soon-FilmJabber?format=xml',
         // 'http://www.fandango.com/rss/comingsoonmovies.rss',
@@ -396,14 +397,15 @@
       var page = this.tmdbPage;
       this.tmdbPage++;
 
-      var startDate = this.getDate(-7);
-      var endDate = this.getDate(5);
+      // var startDate = this.getDate(-7);
+      // var endDate = this.getDate(5);
       // console.log(startDate, endDate);
 
       App.getTmdb({
-        type: 'discover',
-        startDate: startDate,
-        endDate: endDate,
+        type: 'trending',
+        // type: 'discover',
+        // startDate: startDate,
+        // endDate: endDate,
         page: page
       }).done(function (data) {
         _.each(data.results, function (v, i) {
