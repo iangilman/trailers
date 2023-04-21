@@ -1,11 +1,10 @@
-(function() {
-
+(function () {
   var isMobile = /mobile/i.test(navigator.userAgent);
   // isMobile = true;
 
   App.Play = {
     // ----------
-    init: function() {
+    init: function () {
       var self = this;
 
       this.stateMap = {
@@ -33,8 +32,7 @@
           var movie;
           try {
             movie = JSON.parse(movieData);
-          } catch (e) {
-          }
+          } catch (e) {}
 
           if (movie) {
             this.movies.push(movie);
@@ -43,15 +41,20 @@
       }
 
       this._incomingFeeds = [
-        'http://feeds.filmjabber.com/Movies-Coming-Soon-FilmJabber?format=xml',
-        'http://www.fandango.com/rss/comingsoonmovies.rss',
-        'http://feeds.filmjabber.com/Movie-sourcecomCurrentMovies?format=xml',
-        'http://www.fandango.com/rss/top10boxoffice.rss',
-        'http://www.fandango.com/rss/newmovies.rss',
-        'http://dvd.netflix.com/NewReleasesRSS',
-        'http://feeds.filmjabber.com/Movie-sourcecomDvdReleaseDates?format=xml',
-        'http://feeds.filmjabber.com/UpcomingDVD?format=xml',
-        'http://dvd.netflix.com/Top100RSS'
+        'https://www.filmjabber.com/rss/rss-dvd-releases.php',
+        'https://www.filmjabber.com/rss/rss-current.php',
+        'https://www.filmjabber.com/rss/rss-upcoming.php'
+
+        // None of these work anymore:
+        // 'http://feeds.filmjabber.com/Movies-Coming-Soon-FilmJabber?format=xml',
+        // 'http://www.fandango.com/rss/comingsoonmovies.rss',
+        // 'http://feeds.filmjabber.com/Movie-sourcecomCurrentMovies?format=xml',
+        // 'http://www.fandango.com/rss/top10boxoffice.rss',
+        // 'http://www.fandango.com/rss/newmovies.rss',
+        // 'http://dvd.netflix.com/NewReleasesRSS',
+        // 'http://feeds.filmjabber.com/Movie-sourcecomDvdReleaseDates?format=xml',
+        // 'http://feeds.filmjabber.com/UpcomingDVD?format=xml',
+        // 'http://dvd.netflix.com/Top100RSS'
       ];
 
       this.loadMoviesRss();
@@ -64,64 +67,70 @@
         $('.cover').hide();
         $('.play-mode').addClass('mobile');
       } else {
-        $(window).mousemove(function() {
+        $(window).mousemove(function () {
           $('.hover').show();
           clearTimeout(self.hoverTimeout);
-          self.hoverTimeout = setTimeout(function() {
+          self.hoverTimeout = setTimeout(function () {
             $('.hover').fadeOut();
           }, 3000);
         });
       }
 
-      $('.rewind-button').click(function() {
+      $('.rewind-button').click(function () {
         self.rewind();
       });
 
-      $('.skip-button').click(function() {
+      $('.skip-button').click(function () {
         self.skip();
       });
 
-      $('.yes-button').click(function() {
+      $('.yes-button').click(function () {
         self.yesVote();
       });
 
-      $('.no-button').click(function() {
+      $('.no-button').click(function () {
         self.noVote();
       });
 
-      $('.pause-button').click(function() {
+      $('.pause-button').click(function () {
         self.togglePause();
       });
 
-      $(window).keyup(function(event) {
+      $(window).keyup(function (event) {
         if (!self.player) {
           return;
         }
 
         if (event.which === 32) {
           self.togglePause();
-        } else if (event.which === 39) { // Right arrow
+        } else if (event.which === 39) {
+          // Right arrow
           self.skip();
-        } else if (event.which === 37) { // Left arrow
+        } else if (event.which === 37) {
+          // Left arrow
           self.rewind();
-        } else if (event.which === 38) { // Up arrow
+        } else if (event.which === 38) {
+          // Up arrow
           self.yesVote();
-        } else if (event.which === 40) { // Down arrow
+        } else if (event.which === 40) {
+          // Down arrow
           self.noVote();
-        } else if (event.which === 73) { // i
+        } else if (event.which === 73) {
+          // i
           self.player.stopVideo();
           self.startInterstitial('after');
-        } else if (event.which === 74) { // j
+        } else if (event.which === 74) {
+          // j
           if (self.mode !== 'interstitial') {
             self.player.seekTo(Math.max(0, self.player.getCurrentTime() - 5), true);
           }
         }
-         // console.log(event.which);
+        // console.log(event.which);
       });
     },
 
     // ----------
-    togglePause: function() {
+    togglePause: function () {
       var paused;
       if (this.mode === 'interstitial') {
         paused = this.paused = !this.paused;
@@ -137,19 +146,15 @@
 
       if (paused) {
         this.animateAction('fa-pause');
-        $('.pause-button')
-          .removeClass('fa-pause')
-          .addClass('fa-play');
+        $('.pause-button').removeClass('fa-pause').addClass('fa-play');
       } else {
         this.animateAction('fa-play');
-        $('.pause-button')
-          .removeClass('fa-play')
-          .addClass('fa-pause');
+        $('.pause-button').removeClass('fa-play').addClass('fa-pause');
       }
     },
 
     // ----------
-    skip: function() {
+    skip: function () {
       this.rememberMovie();
       this.endInterstitial();
       this.animateAction('fa-forward');
@@ -157,14 +162,14 @@
     },
 
     // ----------
-    rewind: function() {
+    rewind: function () {
       this.endInterstitial();
       this.player.seekTo(0, true);
       this.animateAction('fa-backward');
     },
 
     // ----------
-    yesVote: function() {
+    yesVote: function () {
       this.movie.interest = 'yes';
       this.rememberMovie();
       this.animateAction('fa-thumbs-o-up');
@@ -174,7 +179,7 @@
     },
 
     // ----------
-    noVote: function() {
+    noVote: function () {
       this.movie.interest = 'no';
       this.rememberMovie();
       this.endInterstitial();
@@ -183,22 +188,25 @@
     },
 
     // ----------
-    animateAction: function(icon) {
+    animateAction: function (icon) {
       var $icon = $('<div>')
         .addClass('icon-animation fa fa-border fa-3x ' + icon)
         .appendTo('.main-content')
-        .velocity({
-          scale: 5,
-          opacity: 0
-        }, {
-          complete: function() {
-            $icon.remove();
+        .velocity(
+          {
+            scale: 5,
+            opacity: 0
+          },
+          {
+            complete: function () {
+              $icon.remove();
+            }
           }
-        });
+        );
     },
 
     // ----------
-    next: function() {
+    next: function () {
       var self = this;
 
       if (this.movies.length < 10) {
@@ -213,17 +221,23 @@
 
       this.loadingNext = true;
       $.when(App.getYouTube(movie.title), App.getTmdb({ type: 'movie', id: movie.id }))
-        .done(function(youtube, tmdb) {
+        .done(function (youtube, tmdb) {
           self.loadingNext = false;
-          youtube = (youtube && youtube.length ? youtube[0] : null);
-          tmdb = (tmdb && tmdb.length ? tmdb[0] : null);
-          if (youtube && youtube.items && youtube.items[0] && youtube.items[0].id && youtube.items[0].id.videoId) {
+          youtube = youtube && youtube.length ? youtube[0] : null;
+          tmdb = tmdb && tmdb.length ? tmdb[0] : null;
+          if (
+            youtube &&
+            youtube.items &&
+            youtube.items[0] &&
+            youtube.items[0].id &&
+            youtube.items[0].id.videoId
+          ) {
             youtube = youtube.items[0];
 
             if (youtube.snippet && youtube.snippet.title) {
               var youtubeTitle = self._cleanMatchString(youtube.snippet.title);
               var movieTitle = self._cleanMatchString(movie.title);
-              movie.youtubeTitleMatch = (youtubeTitle.indexOf(movieTitle) !== -1);
+              movie.youtubeTitleMatch = youtubeTitle.indexOf(movieTitle) !== -1;
               // console.log(youtube.snippet.title, youtubeTitle, movieTitle, movie.youtubeTitleMatch);
             } else {
               movie.youtubeTitleMatch = false;
@@ -248,7 +262,7 @@
             self.next();
           }
         })
-        .fail(function() {
+        .fail(function () {
           self.loadingNext = false;
           console.error('[Play.next] failed to get ' + movie.title);
           self.next();
@@ -256,14 +270,15 @@
     },
 
     // ----------
-    _cleanMatchString: function(string) {
-      return string.toLowerCase()
+    _cleanMatchString: function (string) {
+      return string
+        .toLowerCase()
         .replace(/\bthe\b/g, '')
         .replace(/[^a-z\d]/g, '');
     },
 
     // ----------
-    play: function(id) {
+    play: function (id) {
       if (isMobile && !this.playerCreated) {
         this.createPlayer(id);
         return;
@@ -275,15 +290,25 @@
       }
 
       this.player.loadVideoById(id);
-      $('.play-mode .info').text(this.movie.title +
-        ' (' + (this.movie.youtubeTitleMatch ? '+' : '-') + ')' +
-        ', rating: ' + this.movie.vote_average + ' (' + this.movie.vote_count + ' votes)' +
-        ', popularity: ' +
-        Math.round(this.movie.popularity) + ', remaining: ' + this.movies.length);
+      $('.play-mode .info').text(
+        this.movie.title +
+          ' (' +
+          (this.movie.youtubeTitleMatch ? '+' : '-') +
+          ')' +
+          ', rating: ' +
+          this.movie.vote_average +
+          ' (' +
+          this.movie.vote_count +
+          ' votes)' +
+          ', popularity: ' +
+          Math.round(this.movie.popularity) +
+          ', remaining: ' +
+          this.movies.length
+      );
     },
 
     // ----------
-    startInterstitial: function(subMode) {
+    startInterstitial: function (subMode) {
       var self = this;
 
       if (this.mode === 'interstitial' && this.subMode === subMode) {
@@ -296,7 +321,7 @@
 
       this.spinner.stop();
 
-      var count = (subMode === 'before' ? 6 : 10);
+      var count = subMode === 'before' ? 6 : 10;
       $('.interstitial-mode').show();
       $('.count').text(count);
       $('.backdrop').css({
@@ -323,7 +348,7 @@
       this.paused = false;
 
       clearInterval(this.interstitialInterval);
-      this.interstitialInterval = setInterval(function() {
+      this.interstitialInterval = setInterval(function () {
         if (count === 0) {
           clearInterval(self.interstitialInterval);
           if (subMode === 'before') {
@@ -344,7 +369,7 @@
     },
 
     // ----------
-    endInterstitial: function() {
+    endInterstitial: function () {
       if (this.mode !== 'interstitial') {
         return;
       }
@@ -356,7 +381,7 @@
     },
 
     // ----------
-    rememberMovie: function() {
+    rememberMovie: function () {
       if (!this.movie) {
         return;
       }
@@ -365,7 +390,7 @@
     },
 
     // ----------
-    loadMovies: function() {
+    loadMovies: function () {
       var self = this;
 
       var page = this.tmdbPage;
@@ -380,8 +405,8 @@
         startDate: startDate,
         endDate: endDate,
         page: page
-      }).done(function(data) {
-        _.each(data.results, function(v, i) {
+      }).done(function (data) {
+        _.each(data.results, function (v, i) {
           // console.log(v.title, v.vote_average + '(' + v.vote_count + ')', v.release_date);
           if (!App.loadMovie(v.id) && !_.findWhere(self.movies, { id: v.id })) {
             self.movies.push(v);
@@ -397,7 +422,7 @@
     // ----------
     // http://www.filmjabber.com/rss-movie-feeds/
     // http://www.fandango.com/rss/moviefeed
-    loadMoviesRss: function() {
+    loadMoviesRss: function () {
       var self = this;
 
       var url = this._incomingFeeds.shift();
@@ -409,7 +434,7 @@
       var expected = 0;
       var completed = 0;
 
-      var completion = function() {
+      var completion = function () {
         completed++;
         if (completed === expected) {
           if (!self.movie && !self.loadingNext) {
@@ -419,14 +444,15 @@
       };
 
       console.log('loading feed', url);
-      
+
       $.ajax({
         url: '../proxy.php?url=' + encodeURIComponent(url),
-        success: function(data) {
+        success: function (data) {
           var $data = $(data);
           var $title = $data.find('item title');
-          $title.each(function(i, v) {
-            var title = $(v).text()
+          $title.each(function (i, v) {
+            var title = $(v)
+              .text()
               .replace(/\(.*\)/g, '')
               .replace(/^\d+\./, '')
               .replace(/\$.*$/, '');
@@ -436,30 +462,32 @@
             if (/Search for other movies/i.test(title)) {
               return;
             }
-            
+
             console.log('loading movie info', url, title);
 
             expected++;
             App.getTmdb({
               type: 'search',
               query: title
-            }).done(function(data2) {
-              // console.log(title, data2.results && data2.results.length > 0);
-              if (data2 && data2.results && data2.results.length) {
-                var id = data2.results[0].id;
-                if (!App.loadMovie(id) && !_.findWhere(self.movies, { id: id })) {
-                  self.movies.push(data2.results[0]);
+            })
+              .done(function (data2) {
+                // console.log(title, data2.results && data2.results.length > 0);
+                if (data2 && data2.results && data2.results.length) {
+                  var id = data2.results[0].id;
+                  if (!App.loadMovie(id) && !_.findWhere(self.movies, { id: id })) {
+                    self.movies.push(data2.results[0]);
+                  }
                 }
-              }
 
-              completion();
-            }).fail(function() {
-              console.warn('Unable to load', title);
-              completion();
-            });
+                completion();
+              })
+              .fail(function () {
+                console.warn('Unable to load', title);
+                completion();
+              });
           });
         },
-        error: function(xhr, textStatus, errorThrown) {
+        error: function (xhr, textStatus, errorThrown) {
           console.error('[App.getTmdb]', textStatus, errorThrown);
           self.loadMoviesRss();
         }
@@ -467,7 +495,7 @@
     },
 
     // ----------
-    getDate: function(addMonths) {
+    getDate: function (addMonths) {
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
@@ -481,7 +509,7 @@
       }
 
       month = '' + month;
-      if(month.length === 1) {
+      if (month.length === 1) {
         month = '0' + month;
       }
 
@@ -489,21 +517,21 @@
     },
 
     // ----------
-    _printMovies: function() {
-      _.each(this.movies, function(v, i) {
+    _printMovies: function () {
+      _.each(this.movies, function (v, i) {
         console.log(v.title, v.popularity, v.vote_average, v.vote_count, v.release_date);
       });
     },
 
     // ----------
-    onYouTubeIframeAPIReady: function() {
+    onYouTubeIframeAPIReady: function () {
       if (!isMobile) {
         this.createPlayer();
       }
     },
 
     // ----------
-    createPlayer: function(id) {
+    createPlayer: function (id) {
       var self = this;
 
       this.playerCreated = true;
@@ -512,10 +540,10 @@
         videoId: id,
         playerVars: {
           // 'autoplay': 1,
-          'controls': isMobile ? 1 : 0
+          controls: isMobile ? 1 : 0
         },
         events: {
-          'onReady': function() {
+          onReady: function () {
             self.player = player;
 
             if (location.hash === '#mute') {
@@ -526,7 +554,7 @@
               self.play(self.firstId);
             }
           },
-          'onStateChange': function(event) {
+          onStateChange: function (event) {
             var state = event.data;
             // console.log(state);
             if (state === self.stateMap.ended) {
@@ -540,7 +568,7 @@
 
             clearTimeout(self.bufferingTimeout);
             if (state === self.stateMap.buffering) {
-              self.bufferingTimeout = setTimeout(function() {
+              self.bufferingTimeout = setTimeout(function () {
                 $('.buffering-message').show();
               }, 5000);
             } else {
@@ -553,13 +581,12 @@
   };
 
   // ----------
-  App.moduleInits.push(function() {
+  App.moduleInits.push(function () {
     App.Play.init();
   });
 
   // ----------
-  window.onYouTubeIframeAPIReady = function() {
+  window.onYouTubeIframeAPIReady = function () {
     App.Play.onYouTubeIframeAPIReady();
   };
-
 })();
