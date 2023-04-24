@@ -1,8 +1,7 @@
-(function() {
-
+(function () {
   App.List = {
     // ----------
-    render: function() {
+    render: function () {
       var self = this;
 
       this.liked = [];
@@ -12,10 +11,13 @@
 
       for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
-        if (key.indexOf("movie:") !== 0)
-          continue;
+        if (key.indexOf('movie:') !== 0) continue;
 
         var movie = JSON.parse(localStorage[key]);
+
+        // TV shows have a first air date, rather than a release date.
+        movie.release_date = movie.release_date || movie.first_air_date || '';
+
         if (movie.interest === 'yes') {
           this.liked.push(movie);
         } else if (movie.interest === 'no') {
@@ -55,33 +57,33 @@
     },
 
     // ----------
-    display: function(config) {
+    display: function (config) {
       var self = this;
 
-      var movies = _.sortBy(config.movies, function(v, i) {
-        return v.release_date;
+      var movies = _.sortBy(config.movies, function (v, i) {
+        return -v.watchedTimestamp || 0;
       });
 
-      _.each(movies, function(v, i) {
+      _.each(movies, function (v, i) {
         var $el = App.template('movie', v).appendTo(config.$el);
 
-        $el.find('.play-button').click(function() {
+        $el.find('.play-button').click(function () {
           location.href = '../play/#id=' + v.id;
         });
 
-        $el.find('.yes-button').click(function() {
+        $el.find('.yes-button').click(function () {
           v.interest = 'yes';
           App.saveMovie(v);
           self.render();
         });
 
-        $el.find('.no-button').click(function() {
+        $el.find('.no-button').click(function () {
           v.interest = 'no';
           App.saveMovie(v);
           self.render();
         });
 
-        $el.find('.seen-button').click(function() {
+        $el.find('.seen-button').click(function () {
           v.interest = 'seen';
           App.saveMovie(v);
           self.render();
@@ -91,8 +93,7 @@
   };
 
   // ----------
-  App.moduleInits.push(function() {
+  App.moduleInits.push(function () {
     App.List.render();
   });
-
 })();

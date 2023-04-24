@@ -49,6 +49,8 @@
 
       if (config.type === 'movie') {
         url += 'movie/' + config.id;
+      } else if (config.type === 'tv') {
+        url += 'tv/' + config.id;
       } else if (config.type === 'discover') {
         url +=
           'discover/movie?primary_release_date.gte=' +
@@ -60,7 +62,7 @@
       } else if (config.type === 'search') {
         url += 'search/movie?query=' + encodeURIComponent(config.query);
       } else if (config.type === 'trending') {
-        url += 'trending/movie/week?page=' + config.page;
+        url += 'trending/' + config.kind + '/week?page=' + config.page;
       }
 
       return $.ajax({

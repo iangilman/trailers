@@ -2,6 +2,8 @@
   var isMobile = /mobile/i.test(navigator.userAgent);
   // isMobile = true;
 
+  var useTv = /tv=1/.test(location.search);
+
   App.Play = {
     // ----------
     init: function () {
@@ -220,8 +222,14 @@
         return;
       }
 
+      // TV shows have a name rather than a title.
+      movie.title = movie.title || movie.name;
+
       this.loadingNext = true;
-      $.when(App.getYouTube(movie.title), App.getTmdb({ type: 'movie', id: movie.id }))
+      $.when(
+        App.getYouTube(movie.title),
+        App.getTmdb({ type: useTv ? 'tv' : 'movie', id: movie.id })
+      )
         .done(function (youtube, tmdb) {
           self.loadingNext = false;
           youtube = youtube && youtube.length ? youtube[0] : null;
@@ -387,6 +395,7 @@
         return;
       }
 
+      this.movie.watchedTimestamp = Date.now();
       App.saveMovie(this.movie);
     },
 
@@ -403,6 +412,7 @@
 
       App.getTmdb({
         type: 'trending',
+        kind: useTv ? 'tv' : 'movie',
         // type: 'discover',
         // startDate: startDate,
         // endDate: endDate,
