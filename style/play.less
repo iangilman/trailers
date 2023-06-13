@@ -1,193 +1,201 @@
 html,
 body,
 .main-content,
-.play-mode,
-.interstitial-mode,
 #youtube-player {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	position: absolute;
-	left: 0;
-	top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 body {
-	color: white;
-	background: black;
+  color: white;
+  background: black;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.play-mode,
+.interstitial-mode {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  flex-grow: 1;
 }
 
 .flash-error,
 .buffering-message {
-	display: none;
-	position: absolute;
-	top: 50%;
-	left: 10%;
-	right: 10%;
-	text-align: center;
-	margin-top: -15px;
-	font-size: 20px;
-}
-
-.cover {
-	z-index: 10;
-	width: 100%;
-	overflow: hidden;
-	position: absolute;
-	left: 0;
-	top: 55%;
-	bottom: 15%;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  text-align: center;
+  margin-top: -15px;
+  font-size: 20px;
 }
 
 .interstitial-mode {
-	display: none;
-	z-index: 20;
-	background: black;
+  display: none;
+  z-index: 20;
+  background: black;
 
-	.backdrop {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		background-size: contain;
-		background-repeat: no-repeat;
-		background-position: center center;
-	}
+  .backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
 
-	.poster {
-		position: absolute;
-		left: 5%;
-		top: 5%;
-		width: 30%;
-		height: 90%;
-		background-size: contain;
-		z-index: 10;
-		background-repeat: no-repeat;
-		background-position: center center;
-	}
+  .poster {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    width: 30%;
+    height: 90%;
+    background-size: contain;
+    z-index: 10;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
 
-	.info {
-		@height: 400px;
-		position: absolute;
-		z-index: 10;
-		left: 40%;
-		width: 55%;
-		top: 50%;
-		height: @height;
-		margin-top: -@height / 2;
-		background: rgba(0, 0, 0, 0.3);
-		padding: 10px;
+  .info {
+    @height: 400px;
+    position: absolute;
+    z-index: 10;
+    left: 40%;
+    width: 55%;
+    top: 50%;
+    height: @height;
+    margin-top: -@height / 2;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
 
-		.title {
-			font-size: 60px;
-			text-shadow: 2px 2px 0 #000;
-			margin-bottom: 20px;
-		}
+    .title {
+      font-size: 60px;
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 20px;
+    }
 
-		.tagline,
-		.genres,
-		.release-date {
-			font-size: 30px;
-			text-shadow: 1px 1px 0 #000;
-			margin-bottom: 20px;
-		}
+    .tagline,
+    .genres,
+    .release-date {
+      font-size: 30px;
+      text-shadow: 1px 1px 0 #000;
+      margin-bottom: 20px;
+    }
 
-		.count {
-			@count-height: 30px;
-			text-shadow: 1px 1px 0 #000;
-			font-size: @count-height;
-			position: absolute;
-			right: 10px;
-			bottom: 10px;
-			color: rgba(255, 255, 255, 0.7);
-		}
-	}
+    .count {
+      @count-height: 30px;
+      text-shadow: 1px 1px 0 #000;
+      font-size: @count-height;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
 }
 
 .play-mode {
-	.info {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		text-align: center;
-		color: rgba(255, 255, 255, 0.4);
-	}
+  .info {
+    display: none; // Hiding this for now
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+  }
 
-	.mobile-bottom {
-		display: none;
-	}
-
+  .mobile-bottom {
+    display: none;
+  }
 }
 
-.hover {
-	display: none;
-	position: absolute;
-	left: 5%;
-	right: 5%;
-	bottom: 15%;
-	background: rgba(0, 0, 0, 0.3);
-	z-index: 100;
-	text-align: center;
-	text-shadow: 1px 1px 0 #000;
+.controls {
+  display: flex;
+  position: relative;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 5px 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  text-align: center;
+  text-shadow: 1px 1px 0 #000;
 
-	a:link,
-	a:active,
-	a:hover,
-	a:visited {
-	}
+  a:link,
+  a:active,
+  a:hover,
+  a:visited {
+  }
 
-	a:link,
-	a:visited {
-		color: rgba(255, 255, 255, 0.6);
-		text-decoration: none;
-	}
+  a:link,
+  a:visited {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+  }
 
-	a:hover,
-	a:active {
-		color: white;
-		text-decoration: underline;
-	}
+  a:hover,
+  a:active {
+    color: white;
+    text-decoration: underline;
+  }
 
-	.row {
-		margin-top: 15px;
-	}
+  .row {
+    position: relative;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
 
-	.fa {
-		margin: 0 10px;
-		cursor: pointer;
-	}
+  .keys {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .fa {
+    margin: 0 10px;
+    cursor: pointer;
+  }
 }
 
 .icon-animation {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	z-index: 100;
-	margin-left: -30px;
-	margin-top: -30px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  margin-left: -30px;
+  margin-top: -30px;
 }
 
 .mobile {
-	#youtube-player {
-		top: 25%;
-		height: 50%;
-	}
+  #youtube-player {
+    top: 25%;
+    height: 50%;
+  }
 
-	.mobile-bottom {
-		position: absolute;
-		left: 0;
-		width: 100%;
-		top: 80%;
-		display: block;
-		text-align: center;
-		
-		a:link,
-		a:active,
-		a:hover,
-		a:visited {
-			color: white;
-		}
-	}
+  .mobile-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 80%;
+    display: block;
+    text-align: center;
+
+    a:link,
+    a:active,
+    a:hover,
+    a:visited {
+      color: white;
+    }
+  }
 }

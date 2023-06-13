@@ -2,11 +2,17 @@
 <html>
   <head>
     <title>Trailers</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../lib/normalize.css">
-    <link rel="stylesheet/less" type="text/css" href="../style/play.less">
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui"
+    />
+    <link
+      rel="stylesheet"
+      href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="../lib/normalize.css" />
+    <link rel="stylesheet/less" type="text/css" href="../style/play.less" />
     <script src="../lib/jquery-1.11.1.min.js"></script>
     <script src="../lib/less-1.7.5.min.js"></script>
     <script src="../lib/underscore-1.5.0.min.js"></script>
@@ -24,43 +30,47 @@
 
   <body>
     <div class="main-content">
-        <div class="play-mode">
-            <div class="cover"></div>
-            <div id="youtube-player"></div>
-            <div class="info"></div>
-            <div class="mobile-bottom">
-                <a href="../list">See Previously Viewed Trailers</a>
-            </div>
+      <div class="play-mode">
+        <div id="youtube-player"></div>
+        <div class="info"></div>
+        <div class="mobile-bottom">
+          <a href="../list">See Previously Viewed Trailers</a>
         </div>
-        <div class="interstitial-mode">
-            <div class="backdrop"></div>
-            <div class="poster"></div>
-            <div class="info">
-                <div class="title"></div>
-                <div class="tagline"></div>
-                <div class="genres"></div>
-                <div class="release-date"></div>
-                <div class="count"></div>
-            </div>
+      </div>
+      <div class="interstitial-mode">
+        <div class="backdrop"></div>
+        <div class="poster"></div>
+        <div class="info">
+          <div class="title"></div>
+          <div class="tagline"></div>
+          <div class="genres"></div>
+          <div class="release-date"></div>
+          <div class="count"></div>
         </div>
-        <div class="hover">
-            <div class="row">
-                <span class="yes-button fa fa-thumbs-o-up fa-border fa-3x" title="Interested"></span>
-                <span class="no-button fa fa-thumbs-o-down fa-border fa-3x" title="Hate It"></span>
-                <span class="pause-button fa fa-pause fa-border fa-3x" title="Pause/Play"></span>
-                <span class="rewind-button fa fa-fast-backward fa-border fa-3x" title="Rewind"></span>
-                <span class="skip-button fa fa-fast-forward fa-border fa-3x" title="Skip"></span>
-            </div>
-            <div class="row">
-                <div>Keys: up-arrow = interested, down-arrow = hate it, space = pause/play, left-arrow = rewind, right-arrow = skip.</div>
-            </div>
-            <div class="row">
-                <a href="../list">See Previously Viewed Trailers</a>
-            </div>
+      </div>
+      <div class="controls">
+        <div class="row">
+          <a href="../list">See Previously Viewed Trailers</a>
         </div>
+        <div class="row">
+          <span class="yes-button fa fa-thumbs-o-up fa-border fa-3x" title="Interested"></span>
+          <span class="no-button fa fa-thumbs-o-down fa-border fa-3x" title="Hate It"></span>
+          <span class="pause-button fa fa-pause fa-border fa-3x" title="Pause/Play"></span>
+          <span class="rewind-button fa fa-fast-backward fa-border fa-3x" title="Rewind"></span>
+          <span class="skip-button fa fa-fast-forward fa-border fa-3x" title="Skip"></span>
+        </div>
+        <div class="row">
+          <div class="keys">
+            Keys: up-arrow = interested, down-arrow = hate it, space = pause/play, left-arrow =
+            rewind, right-arrow = skip.
+          </div>
+        </div>
+      </div>
     </div>
     <div class="flash-error">We're working on a mobile version...</div>
-    <div class="buffering-message">Sometimes it helps to jiggle the playhead a little. Press J to jog back 5 seconds.</div>
+    <div class="buffering-message">
+      Sometimes it helps to jiggle the playhead a little. Press J to jog back 5 seconds.
+    </div>
     <div class="debug"></div>
   </body>
 </html>

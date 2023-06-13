@@ -67,16 +67,7 @@
       }).spin($('.main-content')[0]);
 
       if (isMobile) {
-        $('.cover').hide();
         $('.play-mode').addClass('mobile');
-      } else {
-        $(window).mousemove(function () {
-          $('.hover').show();
-          clearTimeout(self.hoverTimeout);
-          self.hoverTimeout = setTimeout(function () {
-            $('.hover').fadeOut();
-          }, 3000);
-        });
       }
 
       $('.rewind-button').click(function () {
@@ -332,6 +323,7 @@
 
       var count = subMode === 'before' ? 6 : 10;
       $('.interstitial-mode').show();
+      $('.play-mode').hide();
       $('.count').text(count);
       $('.backdrop').css({
         'background-image': 'url(https://image.tmdb.org/t/p/w1280' + this.movie.backdrop_path + ')'
@@ -385,6 +377,7 @@
 
       clearInterval(this.interstitialInterval);
       $('.interstitial-mode').hide();
+      $('.play-mode').show();
       $('.backdrop').attr('src', '');
       this.mode = 'play';
     },
