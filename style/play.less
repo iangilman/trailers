@@ -132,6 +132,7 @@ body {
   z-index: 100;
   text-align: center;
   text-shadow: 1px 1px 0 #000;
+  transition: opacity 0.4s linear;
 
   a:link,
   a:active,
@@ -165,6 +166,11 @@ body {
   .fa {
     margin: 0 10px;
     cursor: pointer;
+  }
+
+  &.dimmed {
+    opacity: 0.1;
+    transition: opacity 2s linear;
   }
 }
 

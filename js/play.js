@@ -66,8 +66,17 @@
         color: '#888'
       }).spin($('.main-content')[0]);
 
+      this.$controls = $('.controls');
+
       if (isMobile) {
         $('.play-mode').addClass('mobile');
+      } else {
+        this.startDimTimer();
+
+        $(window).on('mousemove', () => {
+          this.$controls.removeClass('dimmed');
+          this.startDimTimer();
+        });
       }
 
       $('.rewind-button').click(function () {
@@ -121,6 +130,14 @@
         }
         // console.log(event.which);
       });
+    },
+
+    // ----------
+    startDimTimer: function () {
+      clearTimeout(this.dimTimeout);
+      this.dimTimeout = setTimeout(() => {
+        this.$controls.addClass('dimmed');
+      }, 5000);
     },
 
     // ----------
