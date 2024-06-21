@@ -63,6 +63,8 @@
         url += 'search/movie?query=' + encodeURIComponent(config.query);
       } else if (config.type === 'trending') {
         url += 'trending/' + config.kind + '/week?page=' + config.page;
+      } else if (config.type === 'upcoming') {
+        url += 'movie/upcoming?page=' + config.page;
       }
 
       return $.ajax({

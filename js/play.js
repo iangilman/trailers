@@ -412,6 +412,7 @@
     // ----------
     loadMovies: function () {
       var self = this;
+      const currentYear = new Date().getFullYear();
 
       var page = this.tmdbPage;
       this.tmdbPage++;
@@ -421,6 +422,7 @@
       // console.log(startDate, endDate);
 
       App.getTmdb({
+        // type: 'upcoming',
         type: 'trending',
         kind: useTv ? 'tv' : 'movie',
         // type: 'discover',
@@ -429,15 +431,23 @@
         page: page
       }).done(function (data) {
         _.each(data.results, function (v, i) {
-          // console.log(v.title, v.vote_average + '(' + v.vote_count + ')', v.release_date);
           if (!App.loadMovie(v.id) && !_.findWhere(self.movies, { id: v.id })) {
-            self.movies.push(v);
+            const year = new Date(v.release_date).getFullYear();
+
+            if (currentYear - year < 5) {
+              // console.log(v.title, v.vote_average + '(' + v.vote_count + ')', v.release_date);
+              self.movies.push(v);
+            }
           }
         });
 
         if (!self.movie && !self.loadingNext) {
           self.next();
         }
+
+        // if (self.tmdbPage < 5) {
+        //   self.loadMovies();
+        // }
       });
     },
 
