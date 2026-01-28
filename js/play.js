@@ -296,7 +296,7 @@
 
     // ----------
     play: function (id) {
-      if (isMobile && !this.playerCreated) {
+      if (!this.playerCreated) {
         this.createPlayer(id);
         return;
       }
@@ -557,9 +557,7 @@
 
     // ----------
     onYouTubeIframeAPIReady: function () {
-      if (!isMobile) {
-        this.createPlayer();
-      }
+      // We used to create the player here, but now we need to wait until we have a valid video ID.
     },
 
     // ----------
